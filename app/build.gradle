@@ -1,0 +1,61 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "com.meizu.myapplication"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        debug {
+            keyAlias 'android.keystore'
+            keyPassword 'haiyun'
+            storeFile file('../android.keystore')
+            storePassword "haiyun"
+        }
+        myReleaseConfig {
+            keyAlias 'android.keystore'
+            keyPassword 'haiyun'
+            storeFile file('../android.keystore')
+            storePassword "haiyun"
+        }
+    }
+
+
+    buildTypes {
+        debug{
+            minifyEnabled false
+            shrinkResources false
+            zipAlignEnabled true
+            //移除无用资源
+            shrinkResources false
+            signingConfig signingConfigs.debug
+        }
+
+        release {
+            minifyEnabled false
+            shrinkResources true
+            zipAlignEnabled true
+            //移除无用资源
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.myReleaseConfig
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.1.0'
+    testCompile 'junit:junit:4.12'
+    compile 'com.alipay.euler:andfix:0.3.1@aar'
+}
